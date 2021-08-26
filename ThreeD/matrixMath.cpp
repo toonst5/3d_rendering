@@ -39,8 +39,8 @@ void matrixMath::ProjectionPoint(int a[], int c[], double o[], int e[], int end[
 
     matrixB[0][0]=qCos(o[2]);
     matrixB[0][1]=qSin(o[2]);
-    matrixB[1][0]=qSin(o[1])*-1;
-    matrixB[1][1]=qCos(o[1]);
+    matrixB[1][0]=qSin(o[2])*-1;
+    matrixB[1][1]=qCos(o[2]);
 
     multiplay(matrixA,matrixB);
 
