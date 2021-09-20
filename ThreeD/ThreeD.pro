@@ -12,12 +12,14 @@ SOURCES += \
     button.cpp \
     main.cpp \
     mainWindow.cpp \
-    matrixMath.cpp
+    matrixMath.cpp \
+    triangle.cpp
 
 HEADERS += \
     button.h \
     mainWindow.h \
-    matrixMath.h
+    matrixMath.h \
+    triangle.h
 
 FORMS +=
 

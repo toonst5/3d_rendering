@@ -32,7 +32,7 @@ void mainWindow::next()
 
 void mainWindow::prev()
 {
-    o[1]=o[1]-0.02;
+    o[1]=o[1]-0.02*M_PI;
     /*if(o[1]<-1)
     {
         o[1]=1;
@@ -42,52 +42,72 @@ void mainWindow::prev()
 
 void mainWindow::forward()
 {
-    /*c[2]=c[2]+qCos(o[1])*50;
-    c[0]=c[0]-qSin(o[1])*50;
-    render();*/
+    c[2]=c[2]+qCos(o[1])*50;
+    c[0]=c[0]+qSin(o[1])*50;
+    render();
 }
 
 void mainWindow::left()
 {
-    /*c[0]=c[0]-qCos(o[1])*50;
+    c[0]=c[0]-qCos(o[1])*50;
     c[2]=c[2]+qSin(o[1])*50;
-    render();*/
-    prev();
+    render();
+    //prev();
 }
 
 void mainWindow::right()
 {
-    /*c[0]=c[0]+qCos(o[1])*50;
+    c[0]=c[0]+qCos(o[1])*50;
     c[2]=c[2]-qSin(o[1])*50;
-    render();*/
-    next();
+    render();
+    //next();
 }
 
 void mainWindow::back()
 {
-    /*c[2]=c[2]-qCos(o[1])*50;
-    c[0]=c[0]+qSin(o[1])*50;
-    render();*/
+    c[2]=c[2]-qCos(o[1])*50;
+    c[0]=c[0]-qSin(o[1])*50;
+    render();
 }
 
 void mainWindow::render()
 {
-    int pointA[3];
-    int pointB[2];
-    //int points[8][3]={{100,100,100},{200,100,100},{200,200,100},{100,200,100},{100,100,200},{200,100,200},{200,200,200},{100,200,200}};
-    int points[14][3]={{-50,-50,-50},{50,-50,-50},{50,50,-50},{-50,50,-50},{-50,-50,50},{50,-50,50},{50,50,50},{-50,50,50},{-75,0,0},{75,0,0},{0,-75,0},{0,75,0},{0,0,-75},{0,0,75}};
-    int pointsEnd[14][2];
+    triangle.clear();
+    int pointA[2]={0,0};
+    int pointB[2]={0,0};
+    int pointC[2]={0,0};
+
+    int points[12][3][3]={{{-50,-50,-50},{50,-50,-50},{-50,50,-50}},
+                          {{50,-50,-50},{-50,50,-50},{50,50,-50}},
+                          {{-50,-50,50},{50,-50,50},{-50,50,50}},
+                          {{50,-50,50},{-50,50,50},{50,50,50}},
+                          {{-50,-50,-50},{-50,-50,50},{-50,50,-50}},
+                          {{-50,50,-50},{-50,-50,50},{-50,50,50}},
+                          {{-50,50,-50},{-50,50,50},{50,50,-50}},
+                          {{50,50,50},{-50,50,50},{50,50,-50}},
+                          {{-50,-50,-50},{-50,-50,50},{50,-50,-50}},
+                          {{50,-50,50},{-50,-50,50},{50,-50,-50}},
+                          {{50,-50,50},{50,50,-50},{50,-50,-50}},
+                          {{50,50,50},{50,-50,50},{50,50,-50}}};
+    for(int i = 0; i<12;i++)
+    {
+        Triangle *t=new Triangle(points[i][0][0],points[i][0][1],points[i][0][2],points[i][1][0],points[i][1][1],points[i][1][2],points[i][2][0],points[i][2][1],points[i][2][2]);
+        triangle.append(t);
+    }
+
+    //int points[14][3]={{-50,-50,-50},{50,-50,-50},{50,50,-50},{-50,50,-50},{-50,-50,50},{50,-50,50},{50,50,50},{-50,50,50},{-75,0,0},{75,0,0},{0,-75,0},{0,75,0},{0,0,-75},{0,0,75}};
+    //int pointsEnd[14][2];
 
     /*c[0]=c[0]+10;
     e[0]=e[0]+50;
     e[1]=e[1]-1;*/
 
-    c[2]=qCos(o[1])*400;
-    c[0]=qSin(o[1])*400;
+    //c[2]=qCos(o[1])*400;
+    //c[0]=qSin(o[1])*400;
     //e[2]=qCos(o[1])*500;
     /*e[0]=qSin(o[1])*500+700;*/
 
-    for(int i=0;i<14;i++)
+    for(int i=0;i<triangle.count();i++)
     {
         /*
         pointA[0]=points[i][0];
@@ -97,30 +117,53 @@ void mainWindow::render()
         pointsEnd[i][0]=pointB[0];
         pointsEnd[i][1]=pointB[1];
         */
+        /*
         pointA[0]=points[i][0];
         pointA[1]=points[i][1];
         pointA[2]=points[i][2];
         math->ProjectionPoint(pointA,c,o,e,pointB);
         pointsEnd[i][0]=pointB[0];
-        pointsEnd[i][1]=pointB[1];
+        pointsEnd[i][1]=pointB[1];*/
+
+        triangle[i]->calc(c,o,e);
+
     }
 
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(Qt::black);
+    brush.setColor(Qt::gray);
 
     scene->clear();
-    for(int i=0;i<8;i++)
+
+    for(int i=0;i<triangle.count();i++)
+    {
+        triangle[i]->giveA(pointA);
+        triangle[i]->giveB(pointB);
+        triangle[i]->giveC(pointC);
+        QVector<QPointF> pentPoints;
+        pentPoints << QPointF(pointA[0],pointA[1]) << QPointF(pointB[0],pointB[1]) << QPointF(pointC[0],pointC[1]);
+
+        QPolygonF pent(pentPoints);
+        QGraphicsPolygonItem* poly= new QGraphicsPolygonItem(pent);
+        poly->setBrush(brush);
+        poly->setOpacity(0.2);
+        scene->addItem(poly);
+    }
+
+    /*for(int i=0;i<8;i++)
     {
         QGraphicsRectItem* point= new QGraphicsRectItem(pointsEnd[i][0]-2,pointsEnd[i][1]-2,4,4);
         point->setBrush(brush);
         scene->addItem(point);
-    }
-    /*for(int i=1;i<8;i++)
-    {
-        QGraphicsLineItem* Line= new QGraphicsLineItem(pointsEnd[i][0],pointsEnd[i][1],pointsEnd[i-1][0],pointsEnd[i-1][1]);
-        scene->addItem(Line);
     }*/
+
+    /*for(int i=0;i<10;i=i+2)
+    {
+       QPolygonF poly;
+       poly<<QPointF(pointsEnd[i][0],pointsEnd[i][1])<<QPointF(pointsEnd[i+1][0],pointsEnd[i+1][1])<<QPointF(pointsEnd[i+2][0],pointsEnd[i+2][1])<<QPointF(pointsEnd[i+3][0],pointsEnd[i+3][1]);
+       QGraphicsPolygonItem* gPoly= new QGraphicsPolygonItem(poly);
+        scene->addItem(gPoly);
+    }
 
     QGraphicsLineItem* Line1= new QGraphicsLineItem(pointsEnd[0][0],pointsEnd[0][1],pointsEnd[1][0],pointsEnd[1][1]);
     scene->addItem(Line1);
@@ -151,9 +194,11 @@ void mainWindow::render()
     QGraphicsLineItem* Line14= new QGraphicsLineItem(pointsEnd[10][0],pointsEnd[10][1],pointsEnd[11][0],pointsEnd[11][1]);
     scene->addItem(Line14);
     QGraphicsLineItem* Line15= new QGraphicsLineItem(pointsEnd[12][0],pointsEnd[12][1],pointsEnd[13][0],pointsEnd[13][1]);
-    scene->addItem(Line15);
+    scene->addItem(Line15);*/
 
-    QString string = QString::number(o[1]);
+
+
+    QString string = QString::number(o[1]/M_PI);
     QString string2 = QString::number(qCos(o[1]));
     QGraphicsTextItem* status = new QGraphicsTextItem(string);
     QFont titleFont("comic sans",20);
@@ -173,19 +218,26 @@ void mainWindow::render()
 
 void mainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Z)
+    if(event->key() == Qt::Key_Z || event->key() == Qt::Key_8 )
     {
         forward();
-    }else if(event->key() == Qt::Key_Q)
+    }else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_4 )
     {
         left();
-    }else if(event->key() == Qt::Key_S)
+    }else if(event->key() == Qt::Key_S || event->key() == Qt::Key_2 )
     {
         back();
-    }else if(event->key() == Qt::Key_D)
+    }else if(event->key() == Qt::Key_D || event->key() == Qt::Key_6 )
     {
         right();
+    }else if(event->key() == Qt::Key_J)
+    {
+        next();
+    }else if(event->key() == Qt::Key_H)
+    {
+        prev();
     }
+
 }
 
 void mainWindow::starterMenu()

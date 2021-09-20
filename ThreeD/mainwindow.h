@@ -3,14 +3,17 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QGraphicsRectItem>
 #include <QGraphicsLineItem>
-#include "matrixMath.h"
 #include <QBrush>
 #include <QTime>
 #include <QMouseEvent>
 #include <windows.h>
 #include "button.h"
+#include <QGraphicsPolygonItem>
+#include <QPointF>
+#include <QPolygonF>
+#include "triangle.h"
+#include <QList>
 
 
 class mainWindow: public QGraphicsView
@@ -28,6 +31,7 @@ private:
     void right();
     void back();
     matrixMath* math;
+    QList<Triangle*> triangle;
 
     // camera settings
     int c[3]={0,70,-500}; // camera posision
