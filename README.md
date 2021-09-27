@@ -1,3 +1,3 @@
 # 3d_rendering
 
-17 uur total
+17 uur total + (~10uur)
