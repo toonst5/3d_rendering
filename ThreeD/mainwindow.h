@@ -9,11 +9,13 @@
 #include <QMouseEvent>
 #include <windows.h>
 #include "button.h"
-#include <QGraphicsPolygonItem>
 #include <QPointF>
 #include <QPolygonF>
-#include "triangle.h"
 #include <QList>
+#include "poly.h"
+#include <QFile>
+#include <QMessageBox>
+#include "cords.h"
 
 
 class mainWindow: public QGraphicsView
@@ -25,18 +27,22 @@ private:
     void starterMenu();
     void options();
     void render();
+    void laod();
     void keyPressEvent( QKeyEvent *event );
     void forward();
     void left();
     void right();
     void back();
     matrixMath* math;
-    QList<Triangle*> triangle;
+    QList<Poly*> poly;
+    QList<Cords*> cordsL;
+    //QList<Triangle*> triangle;
 
     // camera settings
-    int c[3]={0,70,-500}; // camera posision
+    int c[3]={0,-200,2000}; // camera posision
     int e[3]={700,400,500}; // screan
-    double o[3]={0.0,0.0,0}; // camera orientation
+    double o[3]={0.8,0.0,0}; // camera orientation
+    int moveS=40;
 
 public:
     QGraphicsScene* scene;

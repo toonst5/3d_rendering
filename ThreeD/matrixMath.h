@@ -13,7 +13,7 @@ private:
 public:
     matrixMath();
     void simpelProjectionPoint(int[3],int[2]);
-    void ProjectionPoint(int[3],int[3],double[3],int[3],int[2]);
+    void ProjectionPoint(double[3],int[3],double[3],int[3],double[2]);
 };
 
 #endif // MATRIXMATH_H

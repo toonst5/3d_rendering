@@ -12,7 +12,7 @@ void matrixMath::simpelProjectionPoint(int start[3],int end[2])
 }
 
 //https://en.wikipedia.org/wiki/3D_projection
-void matrixMath::ProjectionPoint(int a[], int c[], double o[], int e[], int end[])
+void matrixMath::ProjectionPoint(double a[], int c[], double o[], int e[], double end[])
 {
     double matrixA[3][3];
     double matrixB[3][3];

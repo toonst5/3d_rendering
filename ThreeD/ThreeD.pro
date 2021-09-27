@@ -10,16 +10,18 @@ CONFIG += c++11
 
 SOURCES += \
     button.cpp \
+    cords.cpp \
     main.cpp \
     mainWindow.cpp \
     matrixMath.cpp \
-    triangle.cpp
+    poly.cpp
 
 HEADERS += \
     button.h \
+    cords.h \
     mainWindow.h \
     matrixMath.h \
-    triangle.h
+    poly.h
 
 FORMS +=
 
