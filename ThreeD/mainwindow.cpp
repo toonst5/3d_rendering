@@ -2,6 +2,7 @@
 
 mainWindow::mainWindow(QWidget *parent)
 {
+    sort= new Sorters();
     math= new matrixMath();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -23,7 +24,7 @@ void mainWindow::start()
 
 void mainWindow::next()
 {
-    o[1]=o[1]+0.02;
+    o[1]=o[1]+0.02*M_PI;
     /*if(o[1]>1)
     {
         o[1]=-1;
@@ -292,7 +293,7 @@ void mainWindow::options()
 
 void mainWindow::render()
 {
-    Poly* polyK;
+    //int count=0;
     scene->clear();
     options();
     for(int i=0;i<cordsL.size();i++)
@@ -304,18 +305,18 @@ void mainWindow::render()
     {
         poly[i]->calc();
     }
-
-    for(int i=0;(i<poly.size()-1);i++)
+    //sort->BubbleSort(poly);
+    //sort->original(poly);
+    /*for(int i=0;(i<poly.size()-1);i++)
     {
         if(poly[i]->givDM()<poly[i+1]->givDM())
         {
-            /*polyK=poly[i];
-            poly.remove(i);
-            poly.append(polyK);*/
             poly.move(i,i+1);
             i=0;
         }
-    }
+    }*/
+
+    BubbleSort();
 
     for(int i=0;i<poly.size();i++)
     {
@@ -445,4 +446,23 @@ void mainWindow::laod()
     file.close();
 
     render();
+}
+
+void mainWindow::BubbleSort()
+{
+    Poly* temp;
+    int i, j;
+    int n=poly.size();
+    for (i = 0; i < n-1; i++)
+    {
+        for (j = 0; j < n-i-1; j++)
+        {
+            if (poly[j]->givDM() < poly[j+1]->givDM())
+            {
+                temp=poly[j];
+                poly[j]=poly[j+1];
+                poly[j+1]=temp;
+            }
+        }
+    }
 }

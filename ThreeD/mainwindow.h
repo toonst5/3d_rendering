@@ -16,6 +16,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include "cords.h"
+#include "sorters.h"
 
 
 class mainWindow: public QGraphicsView
@@ -33,13 +34,15 @@ private:
     void left();
     void right();
     void back();
+    void BubbleSort();
+    Sorters* sort;
     matrixMath* math;
     QList<Poly*> poly;
     QList<Cords*> cordsL;
     //QList<Triangle*> triangle;
 
     // camera settings
-    int c[3]={0,-200,2000}; // camera posision
+    int c[3]={0,-200,200}; // camera posision
     int e[3]={700,400,500}; // screan
     double o[3]={0.8,0.0,0}; // camera orientation
     int moveS=40;

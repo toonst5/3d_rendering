@@ -14,14 +14,16 @@ SOURCES += \
     main.cpp \
     mainWindow.cpp \
     matrixMath.cpp \
-    poly.cpp
+    poly.cpp \
+    sorters.cpp
 
 HEADERS += \
     button.h \
     cords.h \
     mainWindow.h \
     matrixMath.h \
-    poly.h
+    poly.h \
+    sorters.h
 
 FORMS +=
 

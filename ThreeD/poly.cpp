@@ -27,7 +27,15 @@ void Poly::draw(QGraphicsScene *cene)
     brush2.setColor(Qt::black);
     brush2.setStyle(Qt::SolidPattern);
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(Qt::red);
+    QColor coler;
+    int shade=disM/15;
+    if(shade>250)
+    {
+        shade=250;
+    }
+
+    coler.setRgb(50,shade,shade,255);
+    brush.setColor(coler);
     QVector<QPointF> pentPoints;
     for(int i=0;i<points.size();i++)
     {
