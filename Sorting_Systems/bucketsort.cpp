@@ -5,6 +5,8 @@ void bucketSort::sort()
     int place=0;
     QList<QList<int*>*> bath;
     QList<int*>* bucket;
+    QList<QThread*> threads;
+    QList<sorter*> sorters;
     for(int y=0;y<50;y++)
     {
         bucket=new QList<int*>;
@@ -26,8 +28,23 @@ void bucketSort::sort()
         place=0;
     }
     sorter* srt;
+    QThread* sortingThread;
     for(int i=0;i<bath.size();i++)
     {
-        srt=new sorter(*list,*lines);
+        srt=new sorter(*list);
+        sortingThread=new QThread();
+        srt->moveToThread(sortingThread);
+        connect(sortingThread, &QThread::finished, srt, &QObject::deleteLater);
+        connect(this, &bucketSort::operate, srt, &sorter::original);
+        connect(srt, &sorter::draw, this, &bucketSort::draw);
+        sortingThread->start();
+        sorters.append(srt);
+        threads.append(sortingThread);
     }
+    emit operate();
+}
+
+void bucketSort::draw(int)
+{
+
 }

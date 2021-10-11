@@ -58,7 +58,7 @@ void mainWindow::make()
         scene->addItem(lines[i]);
     }
 
-    sorter* sort=new sorter(list,lines);
+    sorter* sort=new sorter(list);
     sort->moveToThread(&sortingThread);
     connect(&sortingThread, &QThread::finished, sort, &QObject::deleteLater);
     connect(this, &mainWindow::operate, sort, &sorter::original);
