@@ -16,7 +16,9 @@
 #include <QFile>
 #include <QMessageBox>
 #include "cords.h"
-#include "sorters.h"
+#include "sorter.h"
+#include "bucketsort.h"
+
 
 
 class mainWindow: public QGraphicsView
@@ -34,11 +36,12 @@ private:
     void left();
     void right();
     void back();
-    void BubbleSort();
-    Sorters* sort;
+    //sorter* sort;
     matrixMath* math;
     QList<Poly*> poly;
     QList<Cords*> cordsL;
+    QGraphicsScene* scene;
+    bucketSort* sort;
     //QList<Triangle*> triangle;
 
     // camera settings
@@ -48,13 +51,16 @@ private:
     int moveS=40;
 
 public:
-    QGraphicsScene* scene;
     mainWindow(QWidget* parent=NULL);
 
 public slots:
     void start();
     void next();
     void prev();
+    //void sortStart();
+    void draw();
+signals:
+    void operate();
 };
 
 #endif // MAINWINDOW_H

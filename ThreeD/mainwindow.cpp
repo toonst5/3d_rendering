@@ -2,7 +2,9 @@
 
 mainWindow::mainWindow(QWidget *parent)
 {
-    sort= new Sorters();
+    //sort= new sorter();
+    sort=new bucketSort(poly);
+    connect(sort, &bucketSort::drawB, this, &mainWindow::draw);
     math= new matrixMath();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -40,6 +42,33 @@ void mainWindow::prev()
         o[1]=1;
     }*/
     render();
+}
+
+void mainWindow::draw()
+{
+
+    scene->clear();
+    for(int i=0;i<poly.size();i++)
+    {
+        poly[i]->draw(scene);
+    }
+
+    QString string = QString::number(o[1]/M_PI);
+    QString string2 = QString::number(qCos(o[1]));
+    QGraphicsTextItem* status = new QGraphicsTextItem(string);
+    QFont titleFont("comic sans",20);
+    status->setFont(titleFont);
+    int txPos = this->width() - status->boundingRect().width();
+    int tyPos = 150;
+    status->setPos(txPos,tyPos);
+    scene->addItem(status);
+    QGraphicsTextItem* status2 = new QGraphicsTextItem(string2);
+    status2->setFont(titleFont);
+    tyPos = 170;
+    txPos = this->width() - status2->boundingRect().width();
+    status2->setPos(txPos,tyPos);
+    scene->addItem(status2);
+
 }
 
 void mainWindow::back()
@@ -294,8 +323,6 @@ void mainWindow::options()
 void mainWindow::render()
 {
     //int count=0;
-    scene->clear();
-    options();
     for(int i=0;i<cordsL.size();i++)
     {
         cordsL[i]->calc(c,o,e);
@@ -305,40 +332,7 @@ void mainWindow::render()
     {
         poly[i]->calc();
     }
-    //sort->BubbleSort(poly);
-    //sort->original(poly);
-    /*for(int i=0;(i<poly.size()-1);i++)
-    {
-        if(poly[i]->givDM()<poly[i+1]->givDM())
-        {
-            poly.move(i,i+1);
-            i=0;
-        }
-    }*/
-
-    BubbleSort();
-
-    for(int i=0;i<poly.size();i++)
-    {
-        poly[i]->draw(scene);
-    }
-
-    QString string = QString::number(o[1]/M_PI);
-    QString string2 = QString::number(qCos(o[1]));
-    QGraphicsTextItem* status = new QGraphicsTextItem(string);
-    QFont titleFont("comic sans",20);
-    status->setFont(titleFont);
-    int txPos = this->width() - status->boundingRect().width();
-    int tyPos = 150;
-    status->setPos(txPos,tyPos);
-    scene->addItem(status);
-    QGraphicsTextItem* status2 = new QGraphicsTextItem(string2);
-    status2->setFont(titleFont);
-    tyPos = 170;
-    txPos = this->width() - status2->boundingRect().width();
-    status2->setPos(txPos,tyPos);
-    scene->addItem(status2);
-
+    sort->sort();
 }
 
 void mainWindow::laod()
@@ -448,21 +442,3 @@ void mainWindow::laod()
     render();
 }
 
-void mainWindow::BubbleSort()
-{
-    Poly* temp;
-    int i, j;
-    int n=poly.size();
-    for (i = 0; i < n-1; i++)
-    {
-        for (j = 0; j < n-i-1; j++)
-        {
-            if (poly[j]->givDM() < poly[j+1]->givDM())
-            {
-                temp=poly[j];
-                poly[j]=poly[j+1];
-                poly[j+1]=temp;
-            }
-        }
-    }
-}

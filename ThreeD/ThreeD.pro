@@ -9,21 +9,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    bucketsort.cpp \
     button.cpp \
     cords.cpp \
     main.cpp \
     mainWindow.cpp \
     matrixMath.cpp \
     poly.cpp \
-    sorters.cpp
+    sorter.cpp \
 
 HEADERS += \
+    bucketsort.h \
     button.h \
     cords.h \
     mainWindow.h \
     matrixMath.h \
     poly.h \
-    sorters.h
+    sorter.h \
 
 FORMS +=
 
