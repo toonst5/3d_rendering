@@ -18,6 +18,10 @@ public slots:
     void BubbleSort();
     void original();
     //void bucketSort();
+    void swap(int, int);
+    int partition (int, int);
+    void quickSort(int, int);
+    void quickSortStart(){this->quickSort(0,list->size()-1);emit done();this->thread()->exit();}
 signals:
     void draw(int);
     void done();

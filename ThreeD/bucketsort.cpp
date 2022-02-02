@@ -11,7 +11,7 @@ void bucketSort::sort()
         bath[i]->clear();
     }
     bath.clear();
-    int size=10;
+    int size=20;
     doneC=0;
     int place=0;
     QList<Poly*>* bucket;
@@ -55,7 +55,8 @@ void bucketSort::sort()
         sortingThread=new QThread();
         srt->moveToThread(sortingThread);
         connect(sortingThread, &QThread::finished, srt, &QObject::deleteLater);
-        connect(this, &bucketSort::operate, srt, &sorter::BubbleSort);
+        //connect(this, &bucketSort::operate, srt, &sorter::BubbleSort);
+        connect(this, &bucketSort::operate, srt, &sorter::quickSortStart);
         //connect(srt, &Sorter::draw, this, &bucketSort::draw);
         connect(srt, &sorter::done, this, &bucketSort::done);
         sortingThread->start();

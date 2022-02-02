@@ -38,3 +38,39 @@ void sorter::original()
     emit done();
 }
 
+void sorter::swap(int a, int b)
+{
+    Poly* temp;
+    temp=(*list)[a];
+    (*list)[a]=(*list)[b];
+    (*list)[b]=temp;
+}
+
+int sorter::partition (int low, int high)
+{
+    int pivot = (*list)[high]->givDM();
+    int i = (low - 1);
+
+    for (int j = low; j <= high- 1; j++)
+    {
+        if ((*list)[j]->givDM() >= pivot)
+        {
+            i++;
+            swap(i, j);
+        }
+    }
+    swap((i + 1), high);
+    return (i + 1);
+}
+
+
+void sorter::quickSort(int low, int high)
+{
+    if (low < high)
+    {
+        int pi = this->partition(low, high);
+        this->quickSort(low, pi - 1);
+        this->quickSort(pi + 1, high);
+    }
+}
+

@@ -46,7 +46,7 @@ private:
     //QList<Triangle*> triangle;
 
     // camera settings
-    int c[3]={0,00,200}; // camera posision
+    int c[3]={0,3000,200}; // camera posision
     int e[3]={700,400,500}; // screan
     double o[3]={0.0,0.0,0}; // camera orientation
     int moveS=50;
