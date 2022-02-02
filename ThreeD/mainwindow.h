@@ -7,7 +7,7 @@
 #include <QBrush>
 #include <QTime>
 #include <QMouseEvent>
-#include <windows.h>
+#include <QTextStream>
 #include "button.h"
 #include <QPointF>
 #include <QPolygonF>
@@ -42,13 +42,15 @@ private:
     QList<Cords*> cordsL;
     QGraphicsScene* scene;
     bucketSort* sort;
+    //sorter* sort;
     //QList<Triangle*> triangle;
 
     // camera settings
-    int c[3]={0,-200,200}; // camera posision
+    int c[3]={0,00,200}; // camera posision
     int e[3]={700,400,500}; // screan
-    double o[3]={0.8,0.0,0}; // camera orientation
-    int moveS=40;
+    double o[3]={0.0,0.0,0}; // camera orientation
+    int moveS=50;
+    bool moving = false;
 
 public:
     mainWindow(QWidget* parent=NULL);

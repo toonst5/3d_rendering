@@ -13,6 +13,7 @@ private:
 
     int doneC;
     QList<QList<Poly*>*> bath;
+    QList<QThread*> threads;
     void fill();
 public:
     bucketSort(QList<Poly*>&listO){list=&listO;}

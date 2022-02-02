@@ -28,7 +28,7 @@ void Poly::draw(QGraphicsScene *cene)
     brush2.setStyle(Qt::SolidPattern);
     brush.setStyle(Qt::SolidPattern);
     QColor coler;
-    int shade=disM/15;
+    int shade=disM/150;
     if(shade>250)
     {
         shade=250;

@@ -1,10 +1,11 @@
-#include "mainWindow.h"
+#include "mainwindow.h"
 
 mainWindow::mainWindow(QWidget *parent)
 {
     //sort= new sorter();
     sort=new bucketSort(poly);
     connect(sort, &bucketSort::drawB, this, &mainWindow::draw);
+    //connect(sort, &sorter::draw, this, &mainWindow::draw);
     math= new matrixMath();
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -68,7 +69,7 @@ void mainWindow::draw()
     txPos = this->width() - status2->boundingRect().width();
     status2->setPos(txPos,tyPos);
     scene->addItem(status2);
-
+    moving = false;
 }
 
 void mainWindow::back()
@@ -101,178 +102,31 @@ void mainWindow::forward()
     render();
 }
 
-/*
- * the old system
- * can't laod files
- * onli harde coded objects
-*/
-//void mainWindow::render()
-//{
-//    triangle.clear();
-//    int pointA[2]={0,0};
-//    int pointB[2]={0,0};
-//    int pointC[2]={0,0};
-
-//    int points[12][3][3]={{{-50,-50,-50},{50,-50,-50},{-50,50,-50}},
-//                          {{50,-50,-50},{-50,50,-50},{50,50,-50}},
-//                          {{-50,-50,50},{50,-50,50},{-50,50,50}},
-//                          {{50,-50,50},{-50,50,50},{50,50,50}},
-//                          {{-50,-50,-50},{-50,-50,50},{-50,50,-50}},
-//                          {{-50,50,-50},{-50,-50,50},{-50,50,50}},
-//                          {{-50,50,-50},{-50,50,50},{50,50,-50}},
-//                          {{50,50,50},{-50,50,50},{50,50,-50}},
-//                          {{-50,-50,-50},{-50,-50,50},{50,-50,-50}},
-//                          {{50,-50,50},{-50,-50,50},{50,-50,-50}},
-//                          {{50,-50,50},{50,50,-50},{50,-50,-50}},
-//                          {{50,50,50},{50,-50,50},{50,50,-50}}};
-//    for(int i = 0; i<12;i++)
-//    {
-//        Triangle *t=new Triangle(points[i][0][0],points[i][0][1],points[i][0][2],points[i][1][0],points[i][1][1],points[i][1][2],points[i][2][0],points[i][2][1],points[i][2][2]);
-//        triangle.append(t);
-//    }
-
-//    //int points[14][3]={{-50,-50,-50},{50,-50,-50},{50,50,-50},{-50,50,-50},{-50,-50,50},{50,-50,50},{50,50,50},{-50,50,50},{-75,0,0},{75,0,0},{0,-75,0},{0,75,0},{0,0,-75},{0,0,75}};
-//    //int pointsEnd[14][2];
-
-//    /*c[0]=c[0]+10;
-//    e[0]=e[0]+50;
-//    e[1]=e[1]-1;*/
-
-//    //c[2]=qCos(o[1])*400;
-//    //c[0]=qSin(o[1])*400;
-//    //e[2]=qCos(o[1])*500;
-//    /*e[0]=qSin(o[1])*500+700;*/
-
-//    for(int i=0;i<triangle.count();i++)
-//    {
-//        /*
-//        pointA[0]=points[i][0];
-//        pointA[1]=points[i][1];
-//        pointA[2]=points[i][2];
-//        math->simpelProjectionPoint(pointA,pointB);
-//        pointsEnd[i][0]=pointB[0];
-//        pointsEnd[i][1]=pointB[1];
-//        */
-//        /*
-//        pointA[0]=points[i][0];
-//        pointA[1]=points[i][1];
-//        pointA[2]=points[i][2];
-//        math->ProjectionPoint(pointA,c,o,e,pointB);
-//        pointsEnd[i][0]=pointB[0];
-//        pointsEnd[i][1]=pointB[1];*/
-
-//        triangle[i]->calc(c,o,e);
-
-//    }
-
-//    QBrush brush;
-//    brush.setStyle(Qt::SolidPattern);
-//    brush.setColor(Qt::gray);
-
-//    scene->clear();
-
-//    for(int i=0;i<triangle.count();i++)
-//    {
-//        triangle[i]->giveA(pointA);
-//        triangle[i]->giveB(pointB);
-//        triangle[i]->giveC(pointC);
-//        QVector<QPointF> pentPoints;
-//        pentPoints << QPointF(pointA[0],pointA[1]) << QPointF(pointB[0],pointB[1]) << QPointF(pointC[0],pointC[1]);
-
-//        QPolygonF pent(pentPoints);
-//        QGraphicsPolygonItem* poly= new QGraphicsPolygonItem(pent);
-//        poly->setBrush(brush);
-//        poly->setOpacity(0.2);
-//        scene->addItem(poly);
-//    }
-
-//    /*for(int i=0;i<8;i++)
-//    {
-//        QGraphicsRectItem* point= new QGraphicsRectItem(pointsEnd[i][0]-2,pointsEnd[i][1]-2,4,4);
-//        point->setBrush(brush);
-//        scene->addItem(point);
-//    }*/
-
-//    /*for(int i=0;i<10;i=i+2)
-//    {
-//       QPolygonF poly;
-//       poly<<QPointF(pointsEnd[i][0],pointsEnd[i][1])<<QPointF(pointsEnd[i+1][0],pointsEnd[i+1][1])<<QPointF(pointsEnd[i+2][0],pointsEnd[i+2][1])<<QPointF(pointsEnd[i+3][0],pointsEnd[i+3][1]);
-//       QGraphicsPolygonItem* gPoly= new QGraphicsPolygonItem(poly);
-//        scene->addItem(gPoly);
-//    }
-
-//    QGraphicsLineItem* Line1= new QGraphicsLineItem(pointsEnd[0][0],pointsEnd[0][1],pointsEnd[1][0],pointsEnd[1][1]);
-//    scene->addItem(Line1);
-//    QGraphicsLineItem* Line2= new QGraphicsLineItem(pointsEnd[1][0],pointsEnd[1][1],pointsEnd[2][0],pointsEnd[2][1]);
-//    scene->addItem(Line2);
-//    QGraphicsLineItem* Line3= new QGraphicsLineItem(pointsEnd[2][0],pointsEnd[2][1],pointsEnd[3][0],pointsEnd[3][1]);
-//    scene->addItem(Line3);
-//    QGraphicsLineItem* Line4= new QGraphicsLineItem(pointsEnd[3][0],pointsEnd[3][1],pointsEnd[0][0],pointsEnd[0][1]);
-//    scene->addItem(Line4);
-//    QGraphicsLineItem* Line5= new QGraphicsLineItem(pointsEnd[4][0],pointsEnd[4][1],pointsEnd[5][0],pointsEnd[5][1]);
-//    scene->addItem(Line5);
-//    QGraphicsLineItem* Line6= new QGraphicsLineItem(pointsEnd[5][0],pointsEnd[5][1],pointsEnd[6][0],pointsEnd[6][1]);
-//    scene->addItem(Line6);
-//    QGraphicsLineItem* Line7= new QGraphicsLineItem(pointsEnd[6][0],pointsEnd[6][1],pointsEnd[7][0],pointsEnd[7][1]);
-//    scene->addItem(Line7);
-//    QGraphicsLineItem* Line8= new QGraphicsLineItem(pointsEnd[7][0],pointsEnd[7][1],pointsEnd[4][0],pointsEnd[4][1]);
-//    scene->addItem(Line8);
-//    QGraphicsLineItem* Line9= new QGraphicsLineItem(pointsEnd[0][0],pointsEnd[0][1],pointsEnd[4][0],pointsEnd[4][1]);
-//    scene->addItem(Line9);
-//    QGraphicsLineItem* Line10= new QGraphicsLineItem(pointsEnd[1][0],pointsEnd[1][1],pointsEnd[5][0],pointsEnd[5][1]);
-//    scene->addItem(Line10);
-//    QGraphicsLineItem* Line11= new QGraphicsLineItem(pointsEnd[2][0],pointsEnd[2][1],pointsEnd[6][0],pointsEnd[6][1]);
-//    scene->addItem(Line11);
-//    QGraphicsLineItem* Line12= new QGraphicsLineItem(pointsEnd[3][0],pointsEnd[3][1],pointsEnd[7][0],pointsEnd[7][1]);
-//    scene->addItem(Line12);
-//    QGraphicsLineItem* Line13= new QGraphicsLineItem(pointsEnd[8][0],pointsEnd[8][1],pointsEnd[9][0],pointsEnd[9][1]);
-//    scene->addItem(Line13);
-//    QGraphicsLineItem* Line14= new QGraphicsLineItem(pointsEnd[10][0],pointsEnd[10][1],pointsEnd[11][0],pointsEnd[11][1]);
-//    scene->addItem(Line14);
-//    QGraphicsLineItem* Line15= new QGraphicsLineItem(pointsEnd[12][0],pointsEnd[12][1],pointsEnd[13][0],pointsEnd[13][1]);
-//    scene->addItem(Line15);*/
-
-
-
-//    QString string = QString::number(o[1]/M_PI);
-//    QString string2 = QString::number(qCos(o[1]));
-//    QGraphicsTextItem* status = new QGraphicsTextItem(string);
-//    QFont titleFont("comic sans",20);
-//    status->setFont(titleFont);
-//    int txPos = this->width() - status->boundingRect().width();
-//    int tyPos = 150;
-//    status->setPos(txPos,tyPos);
-//    scene->addItem(status);
-//    QGraphicsTextItem* status2 = new QGraphicsTextItem(string2);
-//    status2->setFont(titleFont);
-//    tyPos = 170;
-//    txPos = this->width() - status2->boundingRect().width();
-//    status2->setPos(txPos,tyPos);
-//    scene->addItem(status2);
-//    options();
-//}
-
-
-
 void mainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Z || event->key() == Qt::Key_8 )
+    if((event->key() == Qt::Key_Z || event->key() == Qt::Key_8 ) && !moving)
     {
+        moving = true;
         forward();
-    }else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_4 )
+    }else if((event->key() == Qt::Key_Q || event->key() == Qt::Key_4 ) && !moving)
     {
+        moving = true;
         left();
-    }else if(event->key() == Qt::Key_S || event->key() == Qt::Key_2 )
+    }else if((event->key() == Qt::Key_S || event->key() == Qt::Key_2 ) && !moving)
     {
+        moving = true;
         back();
-    }else if(event->key() == Qt::Key_D || event->key() == Qt::Key_6 )
+    }else if((event->key() == Qt::Key_D || event->key() == Qt::Key_6 ) && !moving)
     {
+        moving = true;
         right();
-    }else if(event->key() == Qt::Key_J)
+    }else if((event->key() == Qt::Key_J) && !moving)
     {
+        moving = true;
         next();
-    }else if(event->key() == Qt::Key_H)
+    }else if((event->key() == Qt::Key_H) && !moving)
     {
+        moving = true;
         prev();
     }
 
@@ -333,6 +187,7 @@ void mainWindow::render()
         poly[i]->calc();
     }
     sort->sort();
+    //sort->BubbleSort();
 }
 
 void mainWindow::laod()
@@ -343,7 +198,7 @@ void mainWindow::laod()
     QString number3=" ";
     QString number4="";
     int i=0;
-    QFile file("C:/Users/Toon/Desktop/Coding/ThreeD/sword.obj");
+    QFile file("C:\\Users\\Toon\\Desktop\\Coding\\ThreeD\\spin.obj");
     if(!file.open(QIODevice::ReadOnly))
     {
         QMessageBox::information(0,"error",file.errorString());

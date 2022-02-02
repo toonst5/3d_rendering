@@ -13,7 +13,7 @@ SOURCES += \
     button.cpp \
     cords.cpp \
     main.cpp \
-    mainWindow.cpp \
+    mainwindow.cpp \
     matrixMath.cpp \
     poly.cpp \
     sorter.cpp \
@@ -22,14 +22,14 @@ HEADERS += \
     bucketsort.h \
     button.h \
     cords.h \
-    mainWindow.h \
+    mainwindow.h \
     matrixMath.h \
     poly.h \
     sorter.h \
 
 FORMS +=
 
-# Default rules for deployment.
+# Default rules for deploymainWindow.hment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
